@@ -1,151 +1,144 @@
 const map = L.map("map").setView(
-[52.9548,-1.1581],
-13
+  [52.9548, -1.1581],
+  13
 );
-
 
 
 const streetLayer = L.tileLayer(
-"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-{
-attribution:"© OpenStreetMap contributors"
-}
+  "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    attribution: "© OpenStreetMap contributors"
+  }
 );
-
 
 
 const satelliteLayer = L.tileLayer(
-"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-{
-attribution:"Tiles © Esri"
-}
+  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+  {
+    attribution: "Tiles © Esri"
+  }
 );
-
 
 
 streetLayer.addTo(map);
 
 
 
-let satelliteOn=false;
+let satelliteOn = false;
 
-let marker=null;
+let marker = null;
 
-let circle=null;
+let circle = null;
 
-let userMarker=null;
+let userMarker = null;
 
-let accuracyCircle=null;
+let accuracyCircle = null;
 
-let selectedRadius=300;
-
-
+let selectedRadius = 300;
 
 
-function toggleMapType(){
 
+function toggleMapType() {
 
-if(satelliteOn){
+  if (satelliteOn) {
 
-map.removeLayer(satelliteLayer);
+    map.removeLayer(satelliteLayer);
 
-streetLayer.addTo(map);
+    streetLayer.addTo(map);
 
-satelliteOn=false;
+    satelliteOn = false;
 
+  } else {
 
-}
+    map.removeLayer(streetLayer);
 
-else{
+    satelliteLayer.addTo(map);
 
+    satelliteOn = true;
 
-map.removeLayer(streetLayer);
-
-satelliteLayer.addTo(map);
-
-satelliteOn=true;
-
-
-}
-
+  }
 
 }
 
 
 
 
+function setRadius(radius, button) {
 
-function setRadius(radius,button){
-
-
-selectedRadius=radius;
+  selectedRadius = radius;
 
 
-if(circle){
+  if (circle) {
 
-circle.setRadius(radius);
+    circle.setRadius(radius);
 
-}
-
-
-document
-.querySelectorAll(".options button")
-.forEach(btn=>btn.classList.remove("active"));
+  }
 
 
-button.classList.add("active");
+  document
+    .querySelectorAll(".options button")
+    .forEach(btn => btn.classList.remove("active"));
 
+
+  button.classList.add("active");
 
 }
 
 
 
 
-async function searchPostcode(){
+async function searchPostcode() {
 
 
-const postcode=document
-.getElementById("postcode")
-.value
-.trim();
+  const postcode = document
+    .getElementById("postcode")
+    .value
+    .trim();
 
 
-if(!postcode){
+  if (!postcode) {
 
-alert("Enter postcode");
+    alert("Please enter a postcode");
 
-return;
+    return;
 
-}
-
-
-
-const response=await fetch(
-`https://api.postcodes.io/postcodes/${postcode}`
-);
+  }
 
 
-
-const data=await response.json();
-
+  try {
 
 
-if(data.status!==200){
-
-alert("Postcode not found");
-
-return;
-
-}
+    const response = await fetch(
+      `https://api.postcodes.io/postcodes/${postcode}`
+    );
 
 
+    const data = await response.json();
 
-updateMap(
-data.result.latitude,
-data.result.longitude,
-postcode
-);
 
+    if (data.status !== 200) {
+
+      alert("Postcode not found");
+
+      return;
+
+    }
+
+
+    updateMap(
+      data.result.latitude,
+      data.result.longitude,
+      postcode
+    );
+
+
+  } catch(error) {
+
+    alert("Search failed");
+
+    console.log(error);
+
+  }
 
 }
 
@@ -153,130 +146,129 @@ postcode
 
 
 
-function updateMap(lat,lon,label){
+function updateMap(lat, lon, label) {
 
 
-if(marker){
+  if (marker) {
 
-map.removeLayer(marker);
+    map.removeLayer(marker);
 
-}
-
-
-if(circle){
-
-map.removeLayer(circle);
-
-}
+  }
 
 
+  if (circle) {
 
-marker=L.marker([lat,lon])
-.addTo(map)
-.bindPopup(label.toUpperCase())
-.openPopup();
+    map.removeLayer(circle);
+
+  }
 
 
 
-circle=L.circle(
-[lat,lon],
-{
-radius:selectedRadius,
-color:"#2563eb",
-fillOpacity:.2
-}
-)
-.addTo(map);
-
-
-
-map.setView(
-[lat,lon],
-16
-);
-
-
-}
+  marker = L.marker(
+    [lat, lon]
+  )
+  .addTo(map)
+  .bindPopup(
+    `<b>${label.toUpperCase()}</b>`
+  )
+  .openPopup();
 
 
 
 
-
-
-function findLocation(){
-
-
-navigator.geolocation.getCurrentPosition(
-
-(position)=>{
-
-
-const lat=position.coords.latitude;
-
-const lon=position.coords.longitude;
-
-const accuracy=position.coords.accuracy;
+  circle = L.circle(
+    [lat, lon],
+    {
+      radius: selectedRadius,
+      color: "#2563eb",
+      fillOpacity: 0.2
+    }
+  )
+  .addTo(map);
 
 
 
-if(userMarker){
-
-map.removeLayer(userMarker);
-
-}
-
-
-if(accuracyCircle){
-
-map.removeLayer(accuracyCircle);
+  map.setView(
+    [lat, lon],
+    16
+  );
 
 }
 
 
 
-userMarker=L.circleMarker(
-[lat,lon],
-{
-radius:8,
-color:"#2563eb",
-fillColor:"#2563eb",
-fillOpacity:1
-}
-)
-.addTo(map);
+
+
+function findLocation() {
+
+
+  navigator.geolocation.getCurrentPosition(
+
+    function(position) {
+
+
+      const lat = position.coords.latitude;
+
+      const lon = position.coords.longitude;
+
+      const accuracy = position.coords.accuracy;
 
 
 
-accuracyCircle=L.circle(
-[lat,lon],
-{
-radius:accuracy,
-color:"#2563eb",
-fillOpacity:.15
-}
-)
-.addTo(map);
+      if(userMarker){
+
+        map.removeLayer(userMarker);
+
+      }
+
+
+      if(accuracyCircle){
+
+        map.removeLayer(accuracyCircle);
+
+      }
 
 
 
-map.setView(
-[lat,lon],
-17
-);
+      userMarker = L.circleMarker(
+        [lat, lon],
+        {
+          radius: 8,
+          color:"#2563eb",
+          fillColor:"#2563eb",
+          fillOpacity:1
+        }
+      )
+      .addTo(map);
 
 
 
-},
+      accuracyCircle = L.circle(
+        [lat, lon],
+        {
+          radius: accuracy,
+          color:"#2563eb",
+          fillOpacity:0.15
+        }
+      )
+      .addTo(map);
 
 
-()=>{
 
-alert("Location permission needed");
+      map.setView(
+        [lat, lon],
+        17
+      );
 
-}
 
+    },
 
-);
+    function(){
 
+      alert("Location permission needed");
+
+    }
+
+  );
 
 }

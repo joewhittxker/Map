@@ -44,31 +44,25 @@ if ("serviceWorker" in navigator) {
     </div>
 
 
-    <div class="options">
+    <div class="radius-buttons">
 
-      <label>
-        Radius:
-      </label>
+<button onclick="setRadius(100)">
+100m
+</button>
 
-      <select id="radius">
+<button onclick="setRadius(300)" class="active">
+300m
+</button>
 
-        <option value="100">
-          100m
-        </option>
+<button onclick="setRadius(500)">
+500m
+</button>
 
-        <option value="300" selected>
-          300m
-        </option>
+<button onclick="setRadius(1000)">
+1km
+</button>
 
-        <option value="500">
-          500m
-        </option>
-
-        <option value="1000">
-          1km
-        </option>
-
-      </select>
+</div>
 
 
       <button onclick="findLocation()">

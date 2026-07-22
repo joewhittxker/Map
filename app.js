@@ -13,6 +13,20 @@ L.tileLayer(
 
 let marker = null;
 let circle = null;
+let selectedRadius = 300;
+
+
+function setRadius(radius){
+
+  selectedRadius = radius;
+
+  if(circle){
+
+    circle.setRadius(radius);
+
+  }
+
+}
 
 
 // Search postcode
@@ -82,10 +96,7 @@ function updateMap(lat, lon, label) {
   }
 
 
-  const radius =
-    Number(
-      document.getElementById("radius").value
-    );
+  const radius = selectedRadius;
 
 
   marker = L.marker([lat, lon])

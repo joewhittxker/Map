@@ -28,7 +28,7 @@ body {
 
 
 
-/* Floating control card */
+/* Floating control panel */
 
 .controls {
 
@@ -70,7 +70,7 @@ h1 {
 
 
 
-/* Search */
+/* Search bar */
 
 .search-row {
 
@@ -128,7 +128,7 @@ button:hover {
 
 
 
-/* Options */
+/* Button layout */
 
 .options {
 
@@ -161,6 +161,16 @@ button:hover {
 .location-btn {
 
   background: #059669;
+
+}
+
+
+
+/* Satellite button */
+
+.map-btn {
+
+  background: #2563eb;
 
 }
 

@@ -6,7 +6,7 @@ const map = L.map("map").setView(
 );
 
 
-// Add map tiles
+// Add OpenStreetMap tiles
 
 L.tileLayer(
   "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -21,11 +21,16 @@ let marker = null;
 
 let circle = null;
 
+let userMarker = null;
+
+let accuracyCircle = null;
+
 let selectedRadius = 300;
 
 
 
-// Radius button control
+
+// Radius buttons
 
 function setRadius(radius, button) {
 
@@ -55,6 +60,7 @@ function setRadius(radius, button) {
 
 
 }
+
 
 
 
@@ -138,7 +144,7 @@ async function searchPostcode() {
 
 
 
-// Update map
+// Update postcode map
 
 function updateMap(lat, lon, label) {
 
@@ -160,17 +166,21 @@ function updateMap(lat, lon, label) {
 
 
 
+  marker = L.marker(
 
+    [lat, lon]
 
-  marker = L.marker([lat, lon])
+  )
 
-    .addTo(map)
+  .addTo(map)
 
-    .bindPopup(
-      `<b>${label.toUpperCase()}</b>`
-    )
+  .bindPopup(
 
-    .openPopup();
+    `<b>${label.toUpperCase()}</b>`
+
+  )
+
+  .openPopup();
 
 
 
@@ -211,10 +221,9 @@ function updateMap(lat, lon, label) {
 
 
 
-// Use current location
+// GPS location button
 
 function findLocation() {
-
 
 
   if (!navigator.geolocation) {
@@ -230,29 +239,96 @@ function findLocation() {
 
 
 
-
   navigator.geolocation.getCurrentPosition(
 
 
     function(position) {
 
 
-
-      const lat = position.coords.latitude;
-
-
-      const lon = position.coords.longitude;
+      const lat =
+        position.coords.latitude;
 
 
+      const lon =
+        position.coords.longitude;
 
 
-      updateMap(
+      const accuracy =
+        position.coords.accuracy;
 
-        lat,
 
-        lon,
 
-        "Your Location"
+
+      // Remove previous GPS display
+
+      if (userMarker) {
+
+        map.removeLayer(userMarker);
+
+      }
+
+
+
+      if (accuracyCircle) {
+
+        map.removeLayer(accuracyCircle);
+
+      }
+
+
+
+
+      // Blue location dot
+
+      userMarker = L.circleMarker(
+
+        [lat, lon],
+
+        {
+
+          radius: 8,
+
+          color: "#2563eb",
+
+          fillColor: "#2563eb",
+
+          fillOpacity: 1
+
+        }
+
+      ).addTo(map);
+
+
+
+
+
+      // Accuracy circle
+
+      accuracyCircle = L.circle(
+
+        [lat, lon],
+
+        {
+
+          radius: accuracy,
+
+          color: "#2563eb",
+
+          fillOpacity: 0.15
+
+        }
+
+      ).addTo(map);
+
+
+
+
+
+      map.setView(
+
+        [lat, lon],
+
+        17
 
       );
 
@@ -266,7 +342,9 @@ function findLocation() {
 
 
       alert(
+
         "Please allow location access"
+
       );
 
 

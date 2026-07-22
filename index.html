@@ -10,11 +10,9 @@
   <title>Radius Map UK</title>
 
 
-  <!-- App styling -->
   <link rel="stylesheet" href="style.css">
 
 
-  <!-- Leaflet map styling -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -29,7 +27,6 @@
 <div class="app">
 
 
-  <!-- Floating controls -->
   <div class="controls">
 
 
@@ -58,27 +55,27 @@
     <div class="options">
 
 
-      <button onclick="setRadius(100)">
+      <button onclick="setRadius(100, this)">
         100m
       </button>
 
 
-      <button onclick="setRadius(300)">
+      <button onclick="setRadius(300, this)" class="active">
         300m
       </button>
 
 
-      <button onclick="setRadius(500)">
+      <button onclick="setRadius(500, this)">
         500m
       </button>
 
 
-      <button onclick="setRadius(1000)">
+      <button onclick="setRadius(1000, this)">
         1km
       </button>
 
 
-      <button onclick="findLocation()">
+      <button class="location-btn" onclick="findLocation()">
         📍 My Location
       </button>
 
@@ -90,7 +87,6 @@
 
 
 
-  <!-- Map -->
   <div id="map"></div>
 
 
@@ -98,16 +94,14 @@
 
 
 
-<!-- Leaflet -->
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 
-<!-- Our app -->
 <script src="app.js"></script>
 
 
 
-<!-- Installable app support -->
 <script>
 
 if ("serviceWorker" in navigator) {

@@ -1,8 +1,13 @@
 // Create map
-const map = L.map("map").setView([52.9548, -1.1581], 13);
+
+const map = L.map("map").setView(
+  [52.9548, -1.1581],
+  13
+);
 
 
-// Add OpenStreetMap layer
+// Add map tiles
+
 L.tileLayer(
   "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
@@ -11,31 +16,59 @@ L.tileLayer(
 ).addTo(map);
 
 
+
 let marker = null;
+
 let circle = null;
 
 let selectedRadius = 300;
 
 
-// Change radius buttons
-function setRadius(radius) {
+
+// Radius button control
+
+function setRadius(radius, button) {
+
 
   selectedRadius = radius;
 
+
   if (circle) {
+
     circle.setRadius(radius);
+
   }
+
+
+
+  document
+    .querySelectorAll(".options button")
+    .forEach(btn => {
+
+      btn.classList.remove("active");
+
+    });
+
+
+
+  button.classList.add("active");
+
 
 }
 
 
+
+
 // Search postcode
+
 async function searchPostcode() {
+
 
   const postcode = document
     .getElementById("postcode")
     .value
     .trim();
+
 
 
   if (!postcode) {
@@ -47,14 +80,20 @@ async function searchPostcode() {
   }
 
 
+
   try {
 
+
     const response = await fetch(
+
       `https://api.postcodes.io/postcodes/${postcode}`
+
     );
 
 
+
     const data = await response.json();
+
 
 
     if (data.status !== 200) {
@@ -66,8 +105,11 @@ async function searchPostcode() {
     }
 
 
+
     const lat = data.result.latitude;
+
     const lon = data.result.longitude;
+
 
 
     updateMap(
@@ -77,20 +119,29 @@ async function searchPostcode() {
     );
 
 
+
   } catch (error) {
+
 
     alert("Unable to find postcode");
 
+
     console.log(error);
 
+
   }
+
 
 }
 
 
 
+
+
 // Update map
+
 function updateMap(lat, lon, label) {
+
 
 
   if (marker) {
@@ -100,6 +151,7 @@ function updateMap(lat, lon, label) {
   }
 
 
+
   if (circle) {
 
     map.removeLayer(circle);
@@ -107,79 +159,121 @@ function updateMap(lat, lon, label) {
   }
 
 
+
+
+
   marker = L.marker([lat, lon])
+
     .addTo(map)
+
     .bindPopup(
       `<b>${label.toUpperCase()}</b>`
     )
+
     .openPopup();
 
 
 
+
+
   circle = L.circle(
+
     [lat, lon],
+
     {
+
       radius: selectedRadius,
+
       color: "#2563eb",
+
       fillOpacity: 0.2
+
     }
+
   ).addTo(map);
 
 
 
+
+
   map.setView(
+
     [lat, lon],
+
     16
+
   );
+
 
 }
 
 
 
-// Find current location
+
+
+// Use current location
+
 function findLocation() {
+
 
 
   if (!navigator.geolocation) {
 
+
     alert("Location not supported");
 
+
     return;
+
 
   }
 
 
+
+
   navigator.geolocation.getCurrentPosition(
+
 
     function(position) {
 
 
-      const lat =
-        position.coords.latitude;
+
+      const lat = position.coords.latitude;
 
 
-      const lon =
-        position.coords.longitude;
+      const lon = position.coords.longitude;
+
+
 
 
       updateMap(
+
         lat,
+
         lon,
+
         "Your Location"
+
       );
+
 
 
     },
 
 
+
     function() {
+
 
       alert(
         "Please allow location access"
       );
 
+
     }
 
+
   );
+
 
 }

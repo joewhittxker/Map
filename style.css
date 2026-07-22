@@ -2,22 +2,33 @@
   box-sizing: border-box;
 }
 
+
 html,
 body {
+
   margin: 0;
+
   height: 100%;
+
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+
   overflow: hidden;
+
 }
+
 
 
 .app {
+
   height: 100vh;
+
   width: 100%;
+
 }
 
 
-/* Floating control panel */
+
+/* Floating control card */
 
 .controls {
 
@@ -35,9 +46,9 @@ body {
 
   background: white;
 
-  padding: 15px;
+  padding: 16px;
 
-  border-radius: 16px;
+  border-radius: 18px;
 
   box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 
@@ -59,7 +70,7 @@ h1 {
 
 
 
-/* Search bar */
+/* Search */
 
 .search-row {
 
@@ -87,9 +98,11 @@ input {
 
 
 
+/* Buttons */
+
 button {
 
-  padding: 10px 14px;
+  padding: 11px 14px;
 
   border: none;
 
@@ -115,7 +128,7 @@ button:hover {
 
 
 
-/* Radius buttons */
+/* Options */
 
 .options {
 
@@ -133,19 +146,39 @@ button:hover {
 
 
 
-/* Map */
+/* Selected radius */
 
-#map {
+.options button.active {
 
-  width: 100%;
-
-  height: 100vh;
+  background: #2563eb;
 
 }
 
 
 
-/* Mobile improvements */
+/* Location button */
+
+.location-btn {
+
+  background: #059669;
+
+}
+
+
+
+/* Map */
+
+#map {
+
+  height: 100vh;
+
+  width: 100%;
+
+}
+
+
+
+/* Mobile layout */
 
 @media (max-width: 600px) {
 
@@ -154,7 +187,10 @@ button:hover {
 
     top: 10px;
 
+    padding: 12px;
+
   }
+
 
 
   h1 {
@@ -164,10 +200,12 @@ button:hover {
   }
 
 
-  button {
+
+  .options button {
 
     flex: 1;
 
   }
+
 
 }

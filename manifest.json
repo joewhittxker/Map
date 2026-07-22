@@ -1,11 +1,16 @@
 {
-  "name": "Radius Map UK",
+  "name": "Radius Pro",
   "short_name": "Radius Map",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#111827",
-  "description": "A UK postcode radius mapping tool.",
-  "orientation": "portrait",
-  "icons": []
+  "theme_color": "#2563eb",
+  "description": "A postcode radius mapping app.",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }

@@ -3,20 +3,16 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Radius Map UK</title>
+<title>Radius Map UK</title>
 
+<link rel="stylesheet" href="style.css">
 
-  <link rel="stylesheet" href="style.css">
-
-
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  >
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 </head>
 
@@ -27,80 +23,72 @@
 <div class="app">
 
 
-  <div class="controls">
+<div class="controls">
 
 
-    <h1>📍 Radius Map UK</h1>
+<h1>📍 Radius Map UK</h1>
 
 
+<div class="search-row">
 
-    <div class="search-row">
-
-
-      <input
-        id="postcode"
-        type="text"
-        placeholder="Enter UK postcode"
-      >
+<input 
+id="postcode"
+type="text"
+placeholder="Enter UK postcode">
 
 
-      <button onclick="searchPostcode()">
-        Search
-      </button>
+<button onclick="searchPostcode()">
+Search
+</button>
 
-
-    </div>
+</div>
 
 
 
-
-    <div class="options">
-
-
-      <button onclick="setRadius(100, this)">
-        100m
-      </button>
+<div class="options">
 
 
-      <button onclick="setRadius(300, this)" class="active">
-        300m
-      </button>
+<button onclick="setRadius(100,this)">
+100m
+</button>
 
 
-      <button onclick="setRadius(500, this)">
-        500m
-      </button>
+<button onclick="setRadius(300,this)" class="active">
+300m
+</button>
 
 
-      <button onclick="setRadius(1000, this)">
-        1km
-      </button>
+<button onclick="setRadius(500,this)">
+500m
+</button>
 
 
-
-      <button class="location-btn" onclick="findLocation()">
-        📍 My Location
-      </button>
-
+<button onclick="setRadius(1000,this)">
+1km
+</button>
 
 
-      <button class="map-btn" onclick="toggleMapType()">
-        🛰️ Satellite
-      </button>
+<button class="location-btn" onclick="findLocation()">
+📍 My Location
+</button>
 
 
-    </div>
-
-
-  </div>
-
-
-
-  <div id="map"></div>
+<button class="map-btn" onclick="toggleMapType()">
+🛰️ Satellite
+</button>
 
 
 </div>
 
+
+</div>
+
+
+
+<div id="map"></div>
+
+
+</div>
 
 
 
@@ -108,20 +96,6 @@
 
 
 <script src="app.js"></script>
-
-
-
-
-<script>
-
-if ("serviceWorker" in navigator) {
-
-  navigator.serviceWorker.register("service-worker.js");
-
-}
-
-</script>
-
 
 
 </body>

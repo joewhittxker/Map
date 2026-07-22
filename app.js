@@ -1,74 +1,72 @@
-// Create map
-
 const map = L.map("map").setView(
-  [52.9548, -1.1581],
-  13
+[52.9548,-1.1581],
+13
 );
 
 
-// Street map layer
 
 const streetLayer = L.tileLayer(
-  "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-  {
-    attribution: "© OpenStreetMap contributors"
-  }
+"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+{
+attribution:"© OpenStreetMap contributors"
+}
 );
 
 
-// Satellite layer
 
 const satelliteLayer = L.tileLayer(
-  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+{
+attribution:"Tiles © Esri"
+}
 );
+
 
 
 streetLayer.addTo(map);
 
 
-let satelliteOn = false;
 
+let satelliteOn=false;
 
-let marker = null;
+let marker=null;
 
-let circle = null;
+let circle=null;
 
-let userMarker = null;
+let userMarker=null;
 
-let accuracyCircle = null;
+let accuracyCircle=null;
 
-let selectedRadius = 300;
-
-
-
-
-// Change radius
-
-function setRadius(radius, button) {
-
-
-  selectedRadius = radius;
-
-
-  if (circle) {
-
-    circle.setRadius(radius);
-
-  }
+let selectedRadius=300;
 
 
 
-  document
-    .querySelectorAll(".options button")
-    .forEach(btn => {
 
-      btn.classList.remove("active");
-
-    });
+function toggleMapType(){
 
 
+if(satelliteOn){
 
-  button.classList.add("active");
+map.removeLayer(satelliteLayer);
+
+streetLayer.addTo(map);
+
+satelliteOn=false;
+
+
+}
+
+else{
+
+
+map.removeLayer(streetLayer);
+
+satelliteLayer.addTo(map);
+
+satelliteOn=true;
+
+
+}
 
 
 }
@@ -77,110 +75,76 @@ function setRadius(radius, button) {
 
 
 
-// Toggle satellite map
-
-function toggleMapType() {
+function setRadius(radius,button){
 
 
-  if (satelliteOn) {
+selectedRadius=radius;
 
 
-    map.removeLayer(satelliteLayer);
+if(circle){
 
-    streetLayer.addTo(map);
+circle.setRadius(radius);
 
-    satelliteOn = false;
-
-
-  } else {
+}
 
 
-    map.removeLayer(streetLayer);
-
-    satelliteLayer.addTo(map);
-
-    satelliteOn = true;
+document
+.querySelectorAll(".options button")
+.forEach(btn=>btn.classList.remove("active"));
 
 
-  }
+button.classList.add("active");
+
 
 }
 
 
 
 
-
-// Search postcode
-
-async function searchPostcode() {
+async function searchPostcode(){
 
 
-  const postcode = document
-    .getElementById("postcode")
-    .value
-    .trim();
+const postcode=document
+.getElementById("postcode")
+.value
+.trim();
 
 
+if(!postcode){
 
-  if (!postcode) {
+alert("Enter postcode");
 
-    alert("Please enter a postcode");
+return;
 
-    return;
-
-  }
+}
 
 
 
-  try {
-
-
-    const response = await fetch(
-
-      `https://api.postcodes.io/postcodes/${postcode}`
-
-    );
+const response=await fetch(
+`https://api.postcodes.io/postcodes/${postcode}`
+);
 
 
 
-    const data = await response.json();
+const data=await response.json();
 
 
 
-    if (data.status !== 200) {
+if(data.status!==200){
 
-      alert("Postcode not found");
+alert("Postcode not found");
 
-      return;
+return;
 
-    }
-
-
-
-    const lat = data.result.latitude;
-
-    const lon = data.result.longitude;
+}
 
 
 
-    updateMap(
-      lat,
-      lon,
-      postcode
-    );
-
-
-
-  } catch (error) {
-
-
-    alert("Unable to find postcode");
-
-
-    console.log(error);
-
-
-  }
+updateMap(
+data.result.latitude,
+data.result.longitude,
+postcode
+);
 
 
 }
@@ -189,75 +153,47 @@ async function searchPostcode() {
 
 
 
-// Update postcode map
-
-function updateMap(lat, lon, label) {
+function updateMap(lat,lon,label){
 
 
+if(marker){
 
-  if (marker) {
+map.removeLayer(marker);
 
-    map.removeLayer(marker);
-
-  }
-
+}
 
 
-  if (circle) {
+if(circle){
 
-    map.removeLayer(circle);
+map.removeLayer(circle);
 
-  }
+}
 
 
 
-  marker = L.marker(
-
-    [lat, lon]
-
-  )
-
-  .addTo(map)
-
-  .bindPopup(
-
-    `<b>${label.toUpperCase()}</b>`
-
-  )
-
-  .openPopup();
+marker=L.marker([lat,lon])
+.addTo(map)
+.bindPopup(label.toUpperCase())
+.openPopup();
 
 
 
-
-
-  circle = L.circle(
-
-    [lat, lon],
-
-    {
-
-      radius: selectedRadius,
-
-      color: "#2563eb",
-
-      fillOpacity: 0.2
-
-    }
-
-  ).addTo(map);
+circle=L.circle(
+[lat,lon],
+{
+radius:selectedRadius,
+color:"#2563eb",
+fillOpacity:.2
+}
+)
+.addTo(map);
 
 
 
-
-
-  map.setView(
-
-    [lat, lon],
-
-    16
-
-  );
+map.setView(
+[lat,lon],
+16
+);
 
 
 }
@@ -266,129 +202,81 @@ function updateMap(lat, lon, label) {
 
 
 
-// Current location
 
-function findLocation() {
+function findLocation(){
 
 
-  if (!navigator.geolocation) {
+navigator.geolocation.getCurrentPosition(
 
+(position)=>{
 
-    alert("Location not supported");
 
+const lat=position.coords.latitude;
 
-    return;
+const lon=position.coords.longitude;
 
+const accuracy=position.coords.accuracy;
 
-  }
 
 
+if(userMarker){
 
-  navigator.geolocation.getCurrentPosition(
+map.removeLayer(userMarker);
 
+}
 
-    function(position) {
 
+if(accuracyCircle){
 
-      const lat =
-        position.coords.latitude;
+map.removeLayer(accuracyCircle);
 
+}
 
-      const lon =
-        position.coords.longitude;
 
 
-      const accuracy =
-        position.coords.accuracy;
+userMarker=L.circleMarker(
+[lat,lon],
+{
+radius:8,
+color:"#2563eb",
+fillColor:"#2563eb",
+fillOpacity:1
+}
+)
+.addTo(map);
 
 
 
-      if (userMarker) {
+accuracyCircle=L.circle(
+[lat,lon],
+{
+radius:accuracy,
+color:"#2563eb",
+fillOpacity:.15
+}
+)
+.addTo(map);
 
-        map.removeLayer(userMarker);
 
-      }
 
+map.setView(
+[lat,lon],
+17
+);
 
-      if (accuracyCircle) {
 
-        map.removeLayer(accuracyCircle);
 
-      }
+},
 
 
+()=>{
 
+alert("Location permission needed");
 
+}
 
-      userMarker = L.circleMarker(
 
-        [lat, lon],
-
-        {
-
-          radius: 8,
-
-          color: "#2563eb",
-
-          fillColor: "#2563eb",
-
-          fillOpacity: 1
-
-        }
-
-      ).addTo(map);
-
-
-
-
-
-      accuracyCircle = L.circle(
-
-        [lat, lon],
-
-        {
-
-          radius: accuracy,
-
-          color: "#2563eb",
-
-          fillOpacity: 0.15
-
-        }
-
-      ).addTo(map);
-
-
-
-
-
-      map.setView(
-
-        [lat, lon],
-
-        17
-
-      );
-
-
-
-    },
-
-
-    function() {
-
-
-      alert(
-
-        "Please allow location access"
-
-      );
-
-
-    }
-
-
-  );
+);
 
 
 }

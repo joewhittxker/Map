@@ -1,58 +1,54 @@
 * {
-  box-sizing: border-box;
+box-sizing:border-box;
 }
 
 
-html,
-body {
+html, body {
 
-  margin: 0;
+margin:0;
 
-  height: 100%;
+height:100%;
 
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 
-  overflow: hidden;
+overflow:hidden;
 
 }
-
 
 
 .app {
 
-  height: 100vh;
+height:100vh;
 
-  width: 100%;
+width:100%;
 
 }
 
 
 
-/* Floating control panel */
-
 .controls {
 
-  position: absolute;
+position:absolute;
 
-  top: 15px;
+top:15px;
 
-  left: 50%;
+left:50%;
 
-  transform: translateX(-50%);
+transform:translateX(-50%);
 
-  width: calc(100% - 30px);
+width:calc(100% - 30px);
 
-  max-width: 520px;
+max-width:520px;
 
-  background: white;
+background:white;
 
-  padding: 16px;
+padding:16px;
 
-  border-radius: 18px;
+border-radius:18px;
 
-  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+box-shadow:0 8px 25px rgba(0,0,0,0.2);
 
-  z-index: 1000;
+z-index:1000;
 
 }
 
@@ -60,23 +56,21 @@ body {
 
 h1 {
 
-  margin: 0 0 12px;
+margin:0 0 12px;
 
-  text-align: center;
+text-align:center;
 
-  font-size: 22px;
+font-size:22px;
 
 }
 
 
 
-/* Search bar */
-
 .search-row {
 
-  display: flex;
+display:flex;
 
-  gap: 8px;
+gap:8px;
 
 }
 
@@ -84,37 +78,35 @@ h1 {
 
 input {
 
-  flex: 1;
+flex:1;
 
-  padding: 12px;
+padding:12px;
 
-  border-radius: 10px;
+border-radius:10px;
 
-  border: 1px solid #ccc;
+border:1px solid #ccc;
 
-  font-size: 16px;
+font-size:16px;
 
 }
 
 
 
-/* Buttons */
-
 button {
 
-  padding: 11px 14px;
+padding:11px 14px;
 
-  border: none;
+border:none;
 
-  border-radius: 10px;
+border-radius:10px;
 
-  background: #111827;
+background:#111827;
 
-  color: white;
+color:white;
 
-  font-size: 14px;
+font-size:14px;
 
-  cursor: pointer;
+cursor:pointer;
 
 }
 
@@ -122,100 +114,84 @@ button {
 
 button:hover {
 
-  opacity: 0.85;
+opacity:.85;
 
 }
 
 
-
-/* Button layout */
 
 .options {
 
-  margin-top: 12px;
+margin-top:12px;
 
-  display: flex;
+display:flex;
 
-  gap: 6px;
+gap:6px;
 
-  flex-wrap: wrap;
+flex-wrap:wrap;
 
-  justify-content: center;
+justify-content:center;
 
 }
 
 
-
-/* Selected radius */
 
 .options button.active {
 
-  background: #2563eb;
+background:#2563eb;
 
 }
 
 
-
-/* Location button */
 
 .location-btn {
 
-  background: #059669;
+background:#059669;
 
 }
 
 
-
-/* Satellite button */
 
 .map-btn {
 
-  background: #2563eb;
+background:#7c3aed;
 
 }
 
 
-
-/* Map */
 
 #map {
 
-  height: 100vh;
+height:100vh;
 
-  width: 100%;
+width:100%;
 
 }
 
 
 
-/* Mobile layout */
+@media(max-width:600px){
 
-@media (max-width: 600px) {
+.controls{
 
+top:10px;
 
-  .controls {
+padding:12px;
 
-    top: 10px;
-
-    padding: 12px;
-
-  }
+}
 
 
+h1{
 
-  h1 {
+font-size:20px;
 
-    font-size: 20px;
-
-  }
-
+}
 
 
-  .options button {
+.options button{
 
-    flex: 1;
+flex:1;
 
-  }
-
+}
 
 }

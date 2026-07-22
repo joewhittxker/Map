@@ -1,4 +1,3 @@
-// Create map
 const map = L.map("map").setView([52.9548, -1.1581], 13);
 
 

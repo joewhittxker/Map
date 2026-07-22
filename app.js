@@ -6,15 +6,27 @@ const map = L.map("map").setView(
 );
 
 
-// Add OpenStreetMap tiles
+// Street map layer
 
-L.tileLayer(
+const streetLayer = L.tileLayer(
   "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
     attribution: "© OpenStreetMap contributors"
   }
-).addTo(map);
+);
 
+
+// Satellite layer
+
+const satelliteLayer = L.tileLayer(
+  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+);
+
+
+streetLayer.addTo(map);
+
+
+let satelliteOn = false;
 
 
 let marker = null;
@@ -30,7 +42,7 @@ let selectedRadius = 300;
 
 
 
-// Radius buttons
+// Change radius
 
 function setRadius(radius, button) {
 
@@ -58,6 +70,39 @@ function setRadius(radius, button) {
 
   button.classList.add("active");
 
+
+}
+
+
+
+
+
+// Toggle satellite map
+
+function toggleMapType() {
+
+
+  if (satelliteOn) {
+
+
+    map.removeLayer(satelliteLayer);
+
+    streetLayer.addTo(map);
+
+    satelliteOn = false;
+
+
+  } else {
+
+
+    map.removeLayer(streetLayer);
+
+    satelliteLayer.addTo(map);
+
+    satelliteOn = true;
+
+
+  }
 
 }
 
@@ -221,7 +266,7 @@ function updateMap(lat, lon, label) {
 
 
 
-// GPS location button
+// Current location
 
 function findLocation() {
 
@@ -258,15 +303,11 @@ function findLocation() {
 
 
 
-
-      // Remove previous GPS display
-
       if (userMarker) {
 
         map.removeLayer(userMarker);
 
       }
-
 
 
       if (accuracyCircle) {
@@ -278,7 +319,6 @@ function findLocation() {
 
 
 
-      // Blue location dot
 
       userMarker = L.circleMarker(
 
@@ -301,8 +341,6 @@ function findLocation() {
 
 
 
-
-      // Accuracy circle
 
       accuracyCircle = L.circle(
 
@@ -335,7 +373,6 @@ function findLocation() {
 
 
     },
-
 
 
     function() {

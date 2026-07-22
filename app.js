@@ -1,7 +1,8 @@
+// Create map
 const map = L.map("map").setView([52.9548, -1.1581], 13);
 
 
-// Map tiles
+// Add OpenStreetMap layer
 L.tileLayer(
   "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
@@ -12,17 +13,17 @@ L.tileLayer(
 
 let marker = null;
 let circle = null;
+
 let selectedRadius = 300;
 
 
-function setRadius(radius){
+// Change radius buttons
+function setRadius(radius) {
 
   selectedRadius = radius;
 
-  if(circle){
-
+  if (circle) {
     circle.setRadius(radius);
-
   }
 
 }
@@ -31,15 +32,18 @@ function setRadius(radius){
 // Search postcode
 async function searchPostcode() {
 
-  const postcode =
-    document.getElementById("postcode")
+  const postcode = document
+    .getElementById("postcode")
     .value
     .trim();
 
 
   if (!postcode) {
+
     alert("Please enter a postcode");
+
     return;
+
   }
 
 
@@ -66,7 +70,11 @@ async function searchPostcode() {
     const lon = data.result.longitude;
 
 
-    updateMap(lat, lon, postcode);
+    updateMap(
+      lat,
+      lon,
+      postcode
+    );
 
 
   } catch (error) {
@@ -86,16 +94,17 @@ function updateMap(lat, lon, label) {
 
 
   if (marker) {
+
     map.removeLayer(marker);
+
   }
 
 
   if (circle) {
+
     map.removeLayer(circle);
+
   }
-
-
-  const radius = selectedRadius;
 
 
   marker = L.marker([lat, lon])
@@ -110,7 +119,7 @@ function updateMap(lat, lon, label) {
   circle = L.circle(
     [lat, lon],
     {
-      radius: radius,
+      radius: selectedRadius,
       color: "#2563eb",
       fillOpacity: 0.2
     }
@@ -127,7 +136,7 @@ function updateMap(lat, lon, label) {
 
 
 
-// Current location
+// Find current location
 function findLocation() {
 
 
@@ -138,7 +147,6 @@ function findLocation() {
     return;
 
   }
-
 
 
   navigator.geolocation.getCurrentPosition(
@@ -152,7 +160,6 @@ function findLocation() {
 
       const lon =
         position.coords.longitude;
-
 
 
       updateMap(

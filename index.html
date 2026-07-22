@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Radius Map UK</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="controls">
+
+    <h1>📍 Radius Map UK</h1>
+
+    <div class="search-row">
+
+      <input
+        id="postcode"
+        type="text"
+        placeholder="Enter UK postcode"
+      >
+
+      <button onclick="searchPostcode()">
+        Search
+      </button>
+
+    </div>
+
+
+    <div class="options">
+
+      <label>
+        Radius:
+      </label>
+
+      <select id="radius">
+
+        <option value="100">
+          100m
+        </option>
+
+        <option value="300" selected>
+          300m
+        </option>
+
+        <option value="500">
+          500m
+        </option>
+
+        <option value="1000">
+          1km
+        </option>
+
+      </select>
+
+
+      <button onclick="findLocation()">
+        📍 My Location
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div id="map"></div>
+
+
+</div>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="app.js"></script>
+
+
+</body>
+
+</html>

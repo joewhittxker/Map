@@ -4,7 +4,7 @@ const map = L.map("map").setView(
 );
 
 
-// Map layers
+// MAP LAYERS
 
 const streetLayer = L.tileLayer(
   "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -34,12 +34,14 @@ let circle = null;
 
 let userMarker = null;
 
+let locationGlow = null;
+
 let selectedRadius = 300;
 
 
 
 
-// Satellite switch
+// SATELLITE SWITCH
 
 function toggleMapType() {
 
@@ -67,7 +69,7 @@ function toggleMapType() {
 
 
 
-// Radius buttons
+// RADIUS BUTTONS
 
 function setRadius(radius, button) {
 
@@ -95,7 +97,7 @@ function setRadius(radius, button) {
 
 
 
-// Search postcode
+// POSTCODE SEARCH
 
 async function searchPostcode() {
 
@@ -159,7 +161,7 @@ async function searchPostcode() {
 
 
 
-// Create postcode radius
+// CREATE POSTCODE MAP
 
 function updateMap(lat, lon, label) {
 
@@ -191,11 +193,10 @@ function updateMap(lat, lon, label) {
 
 
 
-
   circle = L.circle(
     [lat, lon],
     {
-      radius: selectedRadius,
+      radius:selectedRadius,
       color:"#2563eb",
       fillOpacity:0.2
     }
@@ -215,7 +216,7 @@ function updateMap(lat, lon, label) {
 
 
 
-// My location
+// MY LOCATION
 
 function findLocation() {
 
@@ -251,6 +252,14 @@ function findLocation() {
 
 
 
+      if (locationGlow) {
+
+        map.removeLayer(locationGlow);
+
+      }
+
+
+
       if (circle) {
 
         map.removeLayer(circle);
@@ -260,13 +269,15 @@ function findLocation() {
 
 
 
-      // Small blue location dot only
+
+      // BLUE LOCATION DOT
 
       userMarker = L.circleMarker(
         [lat, lon],
         {
-          radius:8,
-          color:"#2563eb",
+          radius:10,
+          color:"#ffffff",
+          weight:3,
           fillColor:"#2563eb",
           fillOpacity:1
         }
@@ -277,7 +288,25 @@ function findLocation() {
 
 
 
-      // Your chosen radius circle
+      // SOFT GLOW
+
+      locationGlow = L.circle(
+        [lat, lon],
+        {
+          radius:25,
+          color:"#2563eb",
+          fillColor:"#2563eb",
+          fillOpacity:0.15,
+          weight:0
+        }
+      )
+      .addTo(map);
+
+
+
+
+
+      // YOUR CHOSEN RADIUS
 
       circle = L.circle(
         [lat, lon],
@@ -297,7 +326,6 @@ function findLocation() {
         [lat, lon],
         17
       );
-
 
 
     },

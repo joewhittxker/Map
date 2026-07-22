@@ -2,34 +2,42 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Radius Map UK</title>
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
 
+  <!-- App styling -->
+  <link rel="stylesheet" href="style.css">
+
+
+  <!-- Leaflet map styling -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
+  >
+
 </head>
 
-<script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js");
-}
-</script>
+
 <body>
+
 
 <div class="app">
 
+
+  <!-- Floating controls -->
   <div class="controls">
+
 
     <h1>📍 Radius Map UK</h1>
 
+
     <div class="search-row">
+
 
       <input
         id="postcode"
@@ -37,52 +45,78 @@ if ("serviceWorker" in navigator) {
         placeholder="Enter UK postcode"
       >
 
+
       <button onclick="searchPostcode()">
         Search
       </button>
 
+
     </div>
 
 
-    <div class="radius-buttons">
 
-<button onclick="setRadius(100)">
-100m
-</button>
+    <div class="options">
 
-<button onclick="setRadius(300)" class="active">
-300m
-</button>
 
-<button onclick="setRadius(500)">
-500m
-</button>
+      <button onclick="setRadius(100)">
+        100m
+      </button>
 
-<button onclick="setRadius(1000)">
-1km
-</button>
 
-</div>
+      <button onclick="setRadius(300)">
+        300m
+      </button>
+
+
+      <button onclick="setRadius(500)">
+        500m
+      </button>
+
+
+      <button onclick="setRadius(1000)">
+        1km
+      </button>
 
 
       <button onclick="findLocation()">
         📍 My Location
       </button>
 
+
     </div>
+
 
   </div>
 
 
+
+  <!-- Map -->
   <div id="map"></div>
 
 
 </div>
 
 
+
+<!-- Leaflet -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+
+<!-- Our app -->
 <script src="app.js"></script>
+
+
+
+<!-- Installable app support -->
+<script>
+
+if ("serviceWorker" in navigator) {
+
+  navigator.serviceWorker.register("service-worker.js");
+
+}
+
+</script>
 
 
 </body>

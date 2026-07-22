@@ -1,15 +1,11 @@
 {
   "name": "Radius Map UK",
   "short_name": "Radius Map",
-  "start_url": "/radius-map-uk/v2/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#111827",
-  "icons": [
-    {
-      "src": "icon.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ]
+  "description": "A UK postcode radius mapping tool.",
+  "orientation": "portrait",
+  "icons": []
 }
